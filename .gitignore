@@ -1,0 +1,10 @@
+# Compiled
+*.elc
+
+# Auto-Saved Files and Backups
+\#*\#
+*~
+
+# Caches
+auto-save-list/
+tramp
