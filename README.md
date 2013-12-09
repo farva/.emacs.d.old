@@ -1,4 +1,4 @@
 my-emacs-config
 ===============
 
-.emacs,d content
+.emacs.d content
