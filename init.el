@@ -22,3 +22,7 @@
 ;; initialize remote-shell
 (setq remote-shell-resources-path
       (concat user-emacs-directory (convert-standard-filename "elisp/")))
+
+;; indentation
+(setq-default c-basic-offset 2)
+(setq-default indent-tabs-mode nil)
