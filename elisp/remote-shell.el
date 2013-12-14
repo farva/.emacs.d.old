@@ -2,21 +2,33 @@
 
 (require 'my-common)
 
-(defun remote-shell (machine user shell protocol &optional port)
-  "Opens a shell to remote machine using TRAMP"
-  (interactive "sMachine: \nsUser: \nsShell: \nsProtocol: \nsPort: ")
-  (with-temp-buffer
-    (cd (concat "/" protocol ":" user "@" machine
-		(if (and port (string-natural-int-p port))
-		    (concat "#" port)
-		  "")
-		":~/"))
-    (let ((explicit-shell-file-name (concat "/bin/" shell)))
-      (shell (concat "*" machine "*")))))
+(defconst remote-edit-starter-file-name "remote_edit_starter"
+  "File name of remote script in local load-path.
+At the start of each remote-shell this file is copied to the remote host.")
 
-(defvar remote-shell-edit-tmp-file-dmz-string "-<0=0>-"
+(defconst remote-shell-edit-tmp-file-dmz-string "-<0=0>-"
   "Prefix and suffix added to the temporary file needed by remote EDITOR.
 This will act as a DMZ to distinguish it from other text in the buffer.")
+
+(defvar remote-shell-resources-path nil
+  "Path to the resources needed for this package (e.g. remote edit starter file).")
+
+(defun remote-shell (host user shell method &optional port)
+  "Opens a shell to remote host using TRAMP"
+  (interactive "sHost: \nsUser: \nsShell: \nsMethod: \nsPort: ")
+  (if (not remote-shell-resources-path)
+      (error "Not initialized: remote-shell-resources-path is nil")
+    (with-temp-buffer
+      (let ((remote-home-dir (format "/%s:%s@%s%s:~/" method user host
+				     (if (and port (string-natural-int-p port))
+					 (concat "#" port)
+				       ""))))
+	(cd remote-home-dir)
+	(copy-file (expand-file-name
+		    (concat remote-shell-resources-path "/" remote-edit-starter-file-name))
+		   (concat remote-home-dir "." remote-edit-starter-file-name)))
+      (let ((explicit-shell-file-name (concat "/bin/" shell)))
+	(shell (concat "*" host "*"))))))
 
 ; TODO: look at comint-preoutput-filter-functions. maybe can be done without user intervention.'
 (defun attach-current-remote-editing ()

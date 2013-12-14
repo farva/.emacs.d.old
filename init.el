@@ -18,3 +18,7 @@
   (normal-top-level-add-subdirs-to-load-path))
 
 (require 'remote-shell)
+
+;; initialize remote-shell
+(setq remote-shell-resources-path
+      (concat user-emacs-directory (convert-standard-filename "elisp/")))

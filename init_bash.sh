@@ -1,13 +1,13 @@
-function create_remote_editor {
-    echo "echo \"Go ahead and \\\`M-x attach-current-remote-editing', m'kay?\"" > $1
+# function create_remote_editor {
+#     echo "echo \"Go ahead and \\\`M-x attach-current-remote-editing', m'kay?\"" > $1
 
-    echo 'echo -n "-<0=0>-${*}-<0=0>-"' >> $1
-    echo 'read' >> $1
+#     echo 'echo -n "-<0=0>-${*}-<0=0>-"' >> $1
+#     echo 'read' >> $1
 
-    echo 'exit 0' >> $1
+#     echo 'exit 0' >> $1
 
-    chmod +x $1
-}
+#     chmod +x $1
+# }
 
 if [ "${INSIDE_EMACS/*tramp*/tramp}" != "tramp" ]
 then
@@ -22,8 +22,9 @@ else
 	. $HOME/.bashrc
     fi
     
-    EDITOR_PATH=$HOME/remote_edit_starter
-    create_remote_editor $EDITOR_PATH
+    EDITOR_PATH=$HOME/.remote_edit_starter
+    # create_remote_editor $EDITOR_PATH
+    chmod +x $EDITOR_PATH
     export EDITOR=$EDITOR_PATH
     export VISUAL=$EDITOR_PATH
 fi
