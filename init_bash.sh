@@ -1,14 +1,3 @@
-# function create_remote_editor {
-#     echo "echo \"Go ahead and \\\`M-x attach-current-remote-editing', m'kay?\"" > $1
-
-#     echo 'echo -n "-<0=0>-${*}-<0=0>-"' >> $1
-#     echo 'read' >> $1
-
-#     echo 'exit 0' >> $1
-
-#     chmod +x $1
-# }
-
 if [ "${INSIDE_EMACS/*tramp*/tramp}" != "tramp" ]
 then
     export EDITOR=emacsclient
