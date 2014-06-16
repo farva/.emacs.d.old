@@ -50,7 +50,7 @@
   (package-initialize)
 
   (defvar prelude-packages
-    '(ggtags phi-rectangle)
+    '(ggtags jira-rest phi-rectangle)
     "A list of packages to ensure are installed at launch.")
 
   (defun prelude-packages-installed-p ()
