@@ -21,6 +21,8 @@
      (normal-top-level-add-subdirs-to-load-path)))
  '("elisp"))
 
+(require 'cl)
+
 (add-to-list 'load-path (concat user-emacs-directory (convert-standard-filename "repos/remote-shell")))
 (require 'remote-shell)
 
@@ -45,26 +47,42 @@
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
+  (package-initialize)
+
   (defvar prelude-packages
     '(ggtags phi-rectangle)
     "A list of packages to ensure are installed at launch.")
 
   (defun prelude-packages-installed-p ()
-    (loop for p in prelude-packages
-          when (not (package-installed-p p)) do (return nil)
-          finally (return t)))
+    "Check if all packages in `prelude-packages' are installed."
+    (every #'package-installed-p prelude-packages))
 
-  (unless (prelude-packages-installed-p)
-    ;; check for new packages (package versions)
-    (message "%s" "Emacs Prelude is now refreshing its package database...")
-    (package-refresh-contents)
-    (message "%s" " done.")
-    ;; install the missing packages
-    (dolist (p prelude-packages)
-      (when (not (package-installed-p p))
-        (package-install p))))
+  (defun prelude-require-package (package)
+    "Install PACKAGE unless already installed."
+    (unless (memq package prelude-packages)
+      (add-to-list 'prelude-packages package))
+    (unless (package-installed-p package)
+      (package-install package)))
 
-  (package-initialize)
+  (defun prelude-require-packages (packages)
+    "Ensure PACKAGES are installed.
+Missing packages are installed automatically."
+    (mapc #'prelude-require-package packages))
+
+  (define-obsolete-function-alias 'prelude-ensure-module-deps 'prelude-require-packages)
+
+  (defun prelude-install-packages ()
+    "Install all packages listed in `prelude-packages'."
+    (unless (prelude-packages-installed-p)
+      ;; check for new packages (package versions)
+      (message "%s" "Emacs Prelude is now refreshing its package database...")
+      (package-refresh-contents)
+      (message "%s" " done.")
+      ;; install the missing packages
+      (prelude-require-packages prelude-packages)))
+
+  ;; run package installation
+  (prelude-install-packages)
   )
 
 ;; phi-rectangle tweaks
