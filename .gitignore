@@ -9,6 +9,8 @@
 auto-save-list/
 tramp
 eshell/
+url
 
 # other repositories
 repos
+elpa
