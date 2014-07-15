@@ -3,3 +3,5 @@
 (setq jiralib-url "https://jira.xiv.ibm.com")
 
 (require 'org-jira)
+
+(provide 'init-org-jira)

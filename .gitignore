@@ -10,7 +10,9 @@ auto-save-list/
 tramp
 eshell/
 url
+ac-comphist.dat
 
 # other repositories
 repos
 elpa
+elpa.old
