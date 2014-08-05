@@ -1,17 +1,10 @@
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(global-auto-revert-mode t)
- '(gnutls-min-prime-bits 256)
- '(jabber-account-list (quote (("orenbaracha@gmail.com/emacs" (:network-server . "talk.google.com") (:port . 443) (:connection-type . ssl))))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Ubuntu Mono" :foundry "unknown" :slant normal :weight normal :height 151 :width normal)))))
+(setq custom-file (concat user-emacs-directory (convert-standard-filename "custom/basic-custom.el")))
+(load custom-file)
+
+;; IMPORTANT: you must place this *before* any CEDET component (including
+;; EIEIO) gets activated by another package (Gnus, auth-source, ...).
+(setq cedet-root-path (concat user-emacs-directory (convert-standard-filename "repos/cedet/")))
+(load-file (concat cedet-root-path "cedet-devel-load.el"))
 
 ;; add subdirectories to load-path
 (mapc
@@ -24,6 +17,10 @@
  '("elisp"))
 
 (require 'cl)
+
+;; make sure we're not running csh or some other shit...
+(if (eq system-type 'gnu/linux)
+    (setq shell-file-name "/bin/bash"))
 
 (add-to-list 'load-path (concat user-emacs-directory (convert-standard-filename "repos/remote-shell")))
 (require 'remote-shell)
@@ -56,7 +53,7 @@
   (package-initialize)
 
   (defvar prelude-packages
-    '(auto-complete auto-complete-c-headers ggtags jabber phi-rectangle yasnippet)
+    '(auto-complete auto-complete-c-headers company-irony ggtags irony jabber magit phi-rectangle yasnippet)
     "A list of packages to ensure are installed at launch.")
 
   (defun prelude-packages-installed-p ()
@@ -92,12 +89,21 @@ Missing packages are installed automatically."
   )
 
 ;; phi-rectangle tweaks
-(eval-after-load "phi-rectangle"
-  '(progn
-     (define-key phi-rectangle-mode-map (kbd "C-<return>") nil)
-     (define-key phi-rectangle-mode-map (kbd "C-c C-SPC") 'phi-rectangle-set-mark-command)))
+;; (eval-after-load "phi-rectangle"
+;;   '(progn
+;;      (define-key phi-rectangle-mode-map (kbd "C-<return>") nil)
+;;      (define-key phi-rectangle-mode-map (kbd "C-c C-SPC") 'phi-rectangle-set-mark-command)))
 
-(phi-rectangle-mode)
+;; (phi-rectangle-mode)
+
+;; enable CUA just for what I want
+(cua-selection-mode t)
+;;(setq cua-enable-cua-keys nil)
+;;(setq cua-highlight-region-shift-only t) ;; no transient mark mode
+;;(setq cua-toggle-set-mark nil) ;; original set-mark behavior, i.e. no transient-mark-mode
+;;(cua-mode)
+(define-key cua-global-keymap (kbd "C-<return>") nil)
+(define-key cua-global-keymap (kbd "C-c C-SPC") 'cua-set-rectangle-mark)
 
 ;; JIRA REST
 (add-to-list 'load-path (concat user-emacs-directory (convert-standard-filename "repos/jira-rest")))
@@ -131,3 +137,58 @@ Missing packages are installed automatically."
 ;; yasnippets
 (require 'yasnippet)
 (yas-global-mode 1)
+
+;; irony-mode
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'objc-mode-hook 'irony-mode)
+
+;; replace the `completion-at-point' and `complete-symbol' bindings in
+;; irony-mode's buffers by irony-mode's function
+(defun my-irony-mode-hook ()
+  (define-key irony-mode-map [remap completion-at-point]
+    'irony-completion-at-point-async)
+  (define-key irony-mode-map [remap complete-symbol]
+    'irony-completion-at-point-async))
+(add-hook 'irony-mode-hook 'my-irony-mode-hook)
+
+;; add to auto-complete
+(require 'ac-company)
+(ac-company-define-source ac-source-company-irony company-irony)
+
+(add-to-list 'load-path (concat user-emacs-directory (convert-standard-filename "repos/ac-irony")))
+(require 'ac-irony)
+(defun my-ac-irony-hook ()
+  ;; be cautious, if yas is not enabled before (auto-complete-mode 1), overlays
+  ;; *may* persist after an expansion.
+  ;(yas-minor-mode 1)
+  ;(auto-complete-mode 1)
+
+  (add-to-list 'ac-sources 'ac-source-irony)
+  (define-key irony-mode-map (kbd "M-RET") 'ac-complete-irony-async))
+(add-hook 'irony-mode-hook 'my-ac-irony-hook)
+
+;(require 'init-cedet-config)
+;(require 'init-ecb)
+
+;; EShell tweaks
+;; (require 'eshell)
+;; (require 'em-smart)
+;; (setq eshell-where-to-jump 'begin)
+;; (setq eshell-review-quick-commands nil)
+;; (setq eshell-smart-space-goes-to-end t)
+
+;; Load gtags.el
+(require 'init-gtags)
+
+;; Load rtags.el
+(require 'init-rtags)
+
+;; Enable recursive minibuffers
+(setq enable-recursive-minibuffers t)
+(minibuffer-depth-indicate-mode)
+
+;; site specific loads
+(setq site-specific-load-file (concat user-emacs-directory (convert-standard-filename "site-lisp/init.el")))
+(when (file-exists-p site-specific-load-file)
+  (load-file site-specific-load-file))

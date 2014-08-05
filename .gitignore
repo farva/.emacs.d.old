@@ -11,8 +11,14 @@ tramp
 eshell/
 url
 ac-comphist.dat
+semanticdb-system/*
+custom/
+site-lisp/*
+bookmarks
+ede-projects.el
 
 # other repositories
 repos
 elpa
 elpa.old
+/irony/

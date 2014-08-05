@@ -2,6 +2,8 @@ if [ "${INSIDE_EMACS/*tramp*/tramp}" != "tramp" ]
 then
     export EDITOR=emacsclient
     export VISUAL=emacsclient
+    export GIT_EDITOR=emacsclient
+    export GIT_PAGER=''
 else
     echo
     PS1="[\u@\h \W]\$ "
