@@ -4,7 +4,8 @@
 ;; IMPORTANT: you must place this *before* any CEDET component (including
 ;; EIEIO) gets activated by another package (Gnus, auth-source, ...).
 (setq cedet-root-path (concat user-emacs-directory (convert-standard-filename "repos/cedet/")))
-(load-file (concat cedet-root-path "cedet-devel-load.el"))
+(unless (featurep 'cedet-devel-load)
+  (load-file (concat cedet-root-path "cedet-devel-load.el")))
 
 ;; add subdirectories to load-path
 (mapc
@@ -31,6 +32,12 @@
 ;; scrolling
 (global-set-key (kbd "ESC <up>") 'scroll-down-line)
 (global-set-key (kbd "ESC <down>") 'scroll-up-line)
+
+;; find-file-at-point
+(global-set-key (kbd "C-c M-f") 'find-file-at-point)
+
+;; compilation
+(global-set-key (kbd "C-c C") 'compile)
 
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
@@ -112,12 +119,6 @@ Missing packages are installed automatically."
 ;; ORG JIRA
 (require 'init-org-jira)
 
-;; ggtags tweaks
-(eval-after-load "ggtags"
-  '(progn
-     (define-key ggtags-mode-map (kbd "C-M-.") nil)
-     (define-key ggtags-mode-map (kbd "C-x M-.") 'ggtags-find-tag-regexp)))
-
 ;; auto-complete
 (require 'auto-complete)
 ; default config
@@ -179,7 +180,7 @@ Missing packages are installed automatically."
 ;; (setq eshell-smart-space-goes-to-end t)
 
 ;; Load gtags.el
-(require 'init-gtags)
+;; (require 'init-gtags)
 
 ;; Load rtags.el
 (require 'init-rtags)
@@ -192,3 +193,12 @@ Missing packages are installed automatically."
 (setq site-specific-load-file (concat user-emacs-directory (convert-standard-filename "site-lisp/init.el")))
 (when (file-exists-p site-specific-load-file)
   (load-file site-specific-load-file))
+
+;; transpose frame
+(require 'init-transpose-frame)
+
+;; whitespace
+(require 'init-whitespace)
+
+;; projectile-mode
+;; (projectile-global-mode)
