@@ -187,3 +187,6 @@ Missing packages are installed automatically."
 
 ;; load auto-yasnippet
 (require 'init-auto-yasnippet)
+
+;; cua
+(require 'init-cua)
