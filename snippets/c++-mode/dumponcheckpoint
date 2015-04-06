@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: DumpOnCheckPoint
+# key: dumponcheckpoint
+# --
+mas.DumpOnCheckPoint("[$1`(which-function)`] After $2");

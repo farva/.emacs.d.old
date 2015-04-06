@@ -4,7 +4,7 @@
 
 (defun use-rtags (&optional useFileManager)
   (and (rtags-executable-find "rc")
-       (cond ((not (gtags-get-rootpath)) t)
+       (cond ((not (ggtags-current-project-root)) t)
              ((and (not (eq major-mode 'c++-mode))
                    (not (eq major-mode 'c-mode))) (rtags-has-filemanager))
              (useFileManager (rtags-has-filemanager))
@@ -13,6 +13,7 @@
 (defun tags-find-symbol-at-point (&optional prefix)
   (interactive "P")
   (if (or prefix
+          (not (use-rtags))
           (and (not (rtags-find-symbol-at-point))
                rtags-last-request-not-indexed))
       (let (current-prefix-arg)
@@ -20,6 +21,7 @@
 (defun tags-find-references-at-point (&optional prefix)
   (interactive "P")
   (if (or prefix
+          (not (use-rtags))
           (and (not (rtags-find-references-at-point))
                rtags-last-request-not-indexed))
       (let (current-prefix-arg)

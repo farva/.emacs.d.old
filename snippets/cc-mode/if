@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name : if (...) { ... }
+# key: if
+# uuid: oren-if
+# --
+if (${1:condition})
+{
+`(progn
+   (setq yas-snippet-scope-blob (point))
+   (add-hook 'yas-snippet-scope-start-extend-hook
+             (lambda ()
+               (save-excursion
+                 (goto-char yas-snippet-scope-blob)
+                 (kill-line))))
+                 nil)`    $0
+`(yas-snippet-scope-init-pos)`}

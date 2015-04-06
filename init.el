@@ -23,6 +23,10 @@
 (if (eq system-type 'gnu/linux)
     (setq shell-file-name "/bin/bash"))
 
+;; hack for tramp to work properly
+;; (require 'tramp)
+;; (add-to-list 'tramp-remote-process-environment "HGPLAIN=1")
+
 (add-to-list 'load-path (concat user-emacs-directory (convert-standard-filename "repos/remote-shell")))
 (require 'remote-shell)
 
@@ -30,8 +34,8 @@
 ;(require 'markdown-mode)
 
 ;; scrolling
-(global-set-key (kbd "ESC <up>") 'scroll-down-line)
-(global-set-key (kbd "ESC <down>") 'scroll-up-line)
+;; (global-set-key (kbd "ESC <up>") 'scroll-down-line)
+;; (global-set-key (kbd "ESC <down>") 'scroll-up-line)
 
 ;; find-file-at-point
 (global-set-key (kbd "C-c M-f") 'find-file-at-point)
@@ -39,15 +43,18 @@
 ;; compilation
 (global-set-key (kbd "C-c C") 'compile)
 
-(autoload 'markdown-mode "markdown-mode"
-  "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+;; (autoload 'markdown-mode "markdown-mode"
+;;   "Major mode for editing Markdown files" t)
+;; (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+;; (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+;; (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 ;; indentation
 (setq-default c-basic-offset 2)
 (setq-default indent-tabs-mode nil)
+
+;; Emacs' temporary files
+;; (require 'init-temp-files)
 
 ;; WAF supprt
 (setq auto-mode-alist (cons '("wscript" . python-mode) auto-mode-alist))
@@ -60,7 +67,7 @@
   (package-initialize)
 
   (defvar prelude-packages
-    '(auto-complete auto-complete-c-headers company-irony ggtags irony jabber magit phi-rectangle yasnippet)
+    '(auto-complete auto-complete-c-headers company company-c-headers company-irony ggtags irony jabber magit yasnippet drag-stuff auto-yasnippet hc-zenburn-theme slime)
     "A list of packages to ensure are installed at launch.")
 
   (defun prelude-packages-installed-p ()
@@ -120,54 +127,16 @@ Missing packages are installed automatically."
 (require 'init-org-jira)
 
 ;; auto-complete
-(require 'auto-complete)
-; default config
-(require 'auto-complete-config)
-(ac-config-default)
-; let's define a function which initializes auto-complete-c-headers and gets called for c/c++ hooks
-(defun my:ac-c-header-init ()
-  (require 'auto-complete-c-headers)
-  (add-to-list 'ac-sources 'ac-source-c-headers)
-  ; if the needs arise, do: `gcc -xc++ -E -v -', and then add like this:
-  ;(add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-redhat-linux/4.1.2/../../../../include/c++/4.1.2")
-  )
-; now let's call this function from c/c++ hooks
-(add-hook 'c++-mode-hook 'my:ac-c-header-init)
-(add-hook 'c-mode-hook 'my:ac-c-header-init)
+;; (require 'init-auto-complete)
 
 ;; yasnippets
-(require 'yasnippet)
-(yas-global-mode 1)
+(require 'init-yasnippet)
 
-;; irony-mode
-(add-hook 'c++-mode-hook 'irony-mode)
-(add-hook 'c-mode-hook 'irony-mode)
-(add-hook 'objc-mode-hook 'irony-mode)
+;; irony
+(require 'init-irony)
 
-;; replace the `completion-at-point' and `complete-symbol' bindings in
-;; irony-mode's buffers by irony-mode's function
-(defun my-irony-mode-hook ()
-  (define-key irony-mode-map [remap completion-at-point]
-    'irony-completion-at-point-async)
-  (define-key irony-mode-map [remap complete-symbol]
-    'irony-completion-at-point-async))
-(add-hook 'irony-mode-hook 'my-irony-mode-hook)
-
-;; add to auto-complete
-(require 'ac-company)
-(ac-company-define-source ac-source-company-irony company-irony)
-
-(add-to-list 'load-path (concat user-emacs-directory (convert-standard-filename "repos/ac-irony")))
-(require 'ac-irony)
-(defun my-ac-irony-hook ()
-  ;; be cautious, if yas is not enabled before (auto-complete-mode 1), overlays
-  ;; *may* persist after an expansion.
-  ;(yas-minor-mode 1)
-  ;(auto-complete-mode 1)
-
-  (add-to-list 'ac-sources 'ac-source-irony)
-  (define-key irony-mode-map (kbd "M-RET") 'ac-complete-irony-async))
-(add-hook 'irony-mode-hook 'my-ac-irony-hook)
+;; company
+(require 'init-company)
 
 ;(require 'init-cedet-config)
 ;(require 'init-ecb)
@@ -202,3 +171,19 @@ Missing packages are installed automatically."
 
 ;; projectile-mode
 ;; (projectile-global-mode)
+
+;; which function mode
+(require 'init-which-func)
+
+;; load theme
+(require 'init-theme)
+
+;; load mark fixes
+;; (http://www.masteringemacs.org/articles/2010/12/22/fixing-mark-commands-transient-mark-mode/)
+(require 'init-mark-fixes)
+
+;; load projectile
+;; (require 'init-projectile)
+
+;; load auto-yasnippet
+(require 'init-auto-yasnippet)
