@@ -1,6 +1,6 @@
-(setq rtags-src-dir (concat user-emacs-directory (convert-standard-filename "repos/rtags/src/")))
+;; (setq rtags-src-dir (concat user-emacs-directory (convert-standard-filename "repos/rtags/src/")))
 
-(load (concat rtags-src-dir "rtags"))
+;; (load (concat rtags-src-dir "rtags"))
 
 (defun use-rtags (&optional useFileManager)
   (and (rtags-executable-find "rc")
@@ -62,18 +62,19 @@
         (rtags-location-stack-push)))))
 (ad-activate 'ring-insert)
 
-(let ((prefix "\C-cr"))
-  (define-key c-mode-base-map (kbd "M-.") (function tags-find-symbol-at-point))
-  (define-key c-mode-base-map (kbd "M-,") (function tags-find-references-at-point))
-  (define-key c-mode-base-map (concat prefix "f") (function tags-find-file))
-  (define-key c-mode-base-map (concat prefix ".") (function tags-find-symbol))
-  (define-key c-mode-base-map (concat prefix ",") (function tags-find-references))
-  (define-key c-mode-base-map (concat prefix "v") (function rtags-find-virtuals-at-point))
-  (define-key c-mode-base-map (kbd "M-i") (function tags-imenu))
-  (define-key c-mode-base-map (kbd "C-c <") (function rtags-location-stack-back))
-  (define-key c-mode-base-map (kbd "C-c >") (function rtags-location-stack-forward))
-  (define-key c-mode-base-map (kbd "M-n") (function rtags-next-match))
-  (define-key c-mode-base-map (kbd "M-p") (function rtags-previous-match)))
+(eval-after-load 'cc-mode
+  '(let ((prefix "\C-cr"))
+     (define-key c-mode-base-map (kbd "M-.") (function tags-find-symbol-at-point))
+     (define-key c-mode-base-map (kbd "M-,") (function tags-find-references-at-point))
+     (define-key c-mode-base-map (concat prefix "f") (function tags-find-file))
+     (define-key c-mode-base-map (concat prefix ".") (function tags-find-symbol))
+     (define-key c-mode-base-map (concat prefix ",") (function tags-find-references))
+     (define-key c-mode-base-map (concat prefix "v") (function rtags-find-virtuals-at-point))
+     (define-key c-mode-base-map (kbd "M-i") (function tags-imenu))
+     (define-key c-mode-base-map (kbd "C-c <") (function rtags-location-stack-back))
+     (define-key c-mode-base-map (kbd "C-c >") (function rtags-location-stack-forward))
+     (define-key c-mode-base-map (kbd "M-n") (function rtags-next-match))
+     (define-key c-mode-base-map (kbd "M-p") (function rtags-previous-match))))
 
 (add-hook 'c-mode-common-hook
           (lambda ()
