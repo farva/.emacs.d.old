@@ -181,3 +181,6 @@ Missing packages are installed automatically."
 
 ;; cua
 (require 'init-cua)
+
+;; SLIME
+(require 'init-slime)
