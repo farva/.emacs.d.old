@@ -111,11 +111,11 @@ Missing packages are installed automatically."
 ;; (phi-rectangle-mode)
 
 ;; JIRA REST
-(add-to-list 'load-path (concat user-emacs-directory (convert-standard-filename "repos/jira-rest")))
-(require 'jira-rest)
+;; (add-to-list 'load-path (concat user-emacs-directory (convert-standard-filename "repos/jira-rest")))
+;; (require 'jira-rest)
 
 ;; ORG JIRA
-(require 'init-org-jira)
+;; (require 'init-org-jira)
 
 ;; auto-complete
 ;; (require 'init-auto-complete)
@@ -181,3 +181,6 @@ Missing packages are installed automatically."
 
 ;; cua
 (require 'init-cua)
+
+;; SLIME
+(require 'init-slime)
