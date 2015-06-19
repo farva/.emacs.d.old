@@ -12,7 +12,7 @@
     'irony-completion-at-point-async))
 
 (add-hook 'irony-mode-hook 'my-irony-mode-hook)
-(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+;; (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
 (defun my-ac-irony-hook ()
   ;; be cautious, if yas is not enabled before (auto-complete-mode 1), overlays
