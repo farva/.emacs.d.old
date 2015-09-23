@@ -1,11 +1,15 @@
 (setq custom-file (concat user-emacs-directory (convert-standard-filename "custom/basic-custom.el")))
 (load custom-file)
 
+(setq magit-last-seen-setup-instructions "1.4.0")
+
 ;; IMPORTANT: you must place this *before* any CEDET component (including
 ;; EIEIO) gets activated by another package (Gnus, auth-source, ...).
 (setq cedet-root-path (concat user-emacs-directory (convert-standard-filename "repos/cedet/")))
 (unless (featurep 'cedet-devel-load)
-  (load-file (concat cedet-root-path "cedet-devel-load.el")))
+  (let ((cedet-load-file (concat cedet-root-path "cedet-devel-load.el")))
+    (when (file-exists-p cedet-load-file)
+      (load-file cedet-load-file))))
 
 ;; add subdirectories to load-path
 (mapc
@@ -27,8 +31,10 @@
 ;; (require 'tramp)
 ;; (add-to-list 'tramp-remote-process-environment "HGPLAIN=1")
 
-(add-to-list 'load-path (concat user-emacs-directory (convert-standard-filename "repos/remote-shell")))
-(require 'remote-shell)
+(let ((remote-shell-dir (concat user-emacs-directory (convert-standard-filename "repos/remote-shell"))))
+  (when (file-exists-p remote-shell-dir)
+    (add-to-list 'load-path remote-shell-dir)
+    (require 'remote-shell)))
 
 (add-to-list 'load-path (concat user-emacs-directory (convert-standard-filename "repos/markdown-mode")))
 ;(require 'markdown-mode)
@@ -67,7 +73,7 @@
   (package-initialize)
 
   (defvar prelude-packages
-    '(auto-complete auto-complete-c-headers company company-c-headers company-irony ggtags irony jabber magit yasnippet drag-stuff auto-yasnippet hc-zenburn-theme slime)
+    '(use-package auto-complete auto-complete-c-headers company company-c-headers company-irony ggtags irony jabber magit yasnippet drag-stuff auto-yasnippet hc-zenburn-theme slime cider ycmd company-ycmd eval-sexp-fu f rainbow-delimiters smartparens)
     "A list of packages to ensure are installed at launch.")
 
   (defun prelude-packages-installed-p ()
@@ -120,11 +126,15 @@ Missing packages are installed automatically."
 ;; auto-complete
 ;; (require 'init-auto-complete)
 
+(require 'use-package)
+
 ;; yasnippets
 (require 'init-yasnippet)
 
 ;; irony
-(require 'init-irony)
+;;(require 'init-irony)
+;; ycmd
+(require 'init-ycmd)
 
 ;; company
 (require 'init-company)
@@ -143,7 +153,7 @@ Missing packages are installed automatically."
 ;; (require 'init-gtags)
 
 ;; Load rtags.el
-(require 'init-rtags)
+;;(require 'init-rtags)
 
 ;; Enable recursive minibuffers
 (setq enable-recursive-minibuffers t)
@@ -184,3 +194,11 @@ Missing packages are installed automatically."
 
 ;; SLIME
 (require 'init-slime)
+
+;; Eshell
+(require 'eshell-fixes)
+
+;; smartparens
+(require 'init-smartparens)
+;; cider
+(require 'init-cider)

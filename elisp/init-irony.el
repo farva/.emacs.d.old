@@ -29,8 +29,10 @@
      (require 'ac-company)
      (ac-company-define-source ac-source-company-irony company-irony)
 
-     (add-to-list 'load-path (concat user-emacs-directory (convert-standard-filename "repos/ac-irony")))
-     (require 'ac-irony)
-     (add-hook 'irony-mode-hook 'my-ac-irony-hook)))
+     (let ((ac-irony-dir (concat user-emacs-directory (convert-standard-filename "repos/ac-irony"))))
+       (when (file-exists-p ac-irony-dir)
+         (add-to-list 'load-path ac-irony-dir)
+         (require 'ac-irony)
+         (add-hook 'irony-mode-hook 'my-ac-irony-hook)))))
 
 (provide 'init-irony)

@@ -12,7 +12,9 @@
 ;; (slime-setup '(slime-fancy))
 
 (eval-after-load 'slime
-  '(setq inferior-lisp-program (expand-file-name "~/ccl/lx86cl64"))
-  '(slime-setup '(slime-fancy slime-company)))
+  '(let ((inferior-lisp-prog-path (expand-file-name "~/ccl/lx86cl64")))
+     (when (file-exists-p inferior-lisp-prog-path)
+       (setq inferior-lisp-program inferior-lisp-prog-path)
+       (slime-setup '(slime-fancy slime-company)))))
 
 (provide 'init-slime)
