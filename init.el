@@ -73,7 +73,7 @@
   (package-initialize)
 
   (defvar prelude-packages
-    '(use-package auto-complete auto-complete-c-headers company company-c-headers company-irony ggtags irony jabber magit yasnippet drag-stuff auto-yasnippet hc-zenburn-theme slime cider ycmd company-ycmd eval-sexp-fu f rainbow-delimiters smartparens)
+    '(use-package auto-complete auto-complete-c-headers company company-c-headers company-irony ggtags irony jabber magit yasnippet drag-stuff auto-yasnippet hc-zenburn-theme slime cider ycmd company-ycmd eval-sexp-fu f rainbow-delimiters smartparens cider-eval-sexp-fu)
     "A list of packages to ensure are installed at launch.")
 
   (defun prelude-packages-installed-p ()
@@ -133,8 +133,9 @@ Missing packages are installed automatically."
 
 ;; irony
 ;;(require 'init-irony)
+
 ;; ycmd
-(require 'init-ycmd)
+;; (require 'init-ycmd)
 
 ;; company
 (require 'init-company)
@@ -200,5 +201,14 @@ Missing packages are installed automatically."
 
 ;; smartparens
 (require 'init-smartparens)
+
 ;; cider
 (require 'init-cider)
+
+;; ggtags
+(require 'init-ggtags)
+
+(require 's)
+
+;; eclim
+(require 'init-eclim)

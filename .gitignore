@@ -23,3 +23,5 @@ elpa
 elpa.old
 /irony/
 /projectile-bookmarks.eld
+/.#tramp
+/elisp/workbench.xmi

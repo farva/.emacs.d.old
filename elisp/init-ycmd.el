@@ -1,6 +1,10 @@
 (require 'ycmd)
 (add-hook 'after-init-hook #'global-ycmd-mode)
-(set-variable 'ycmd-server-command '("python2.7" "/home/oren/workspace/ycmd/ycmd"))
+(set-variable 'ycmd-server-command `("python2.7"
+                                     ,(expand-file-name
+                                       (concat user-emacs-directory
+                                              (convert-standard-filename
+                                               "repos/ycmd/ycmd")))))
 
 (eval-after-load 'company
   '(progn
