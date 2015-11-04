@@ -1,3 +1,5 @@
+(my:install-package-if-needed 'emacs-eclim)
+
 (require 'eclim)
 (global-eclim-mode)
 

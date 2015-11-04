@@ -1,3 +1,6 @@
+(my:install-package-if-needed 'cider)
+(my:install-package-if-needed 'cider-eval-sexp-fu)
+
 (eval-after-load 'company
   '(eval-after-load 'cider
      '(progn
@@ -14,6 +17,7 @@
 
 (add-hook 'cider-repl-mode-hook #'subword-mode)
 
+(my:install-package-if-needed 'rainbow-delimiters)
 (add-hook 'cider-repl-mode-hook #'rainbow-delimiters-mode)
 
 (add-hook 'cider-repl-mode-hook #'smartparens-strict-mode)

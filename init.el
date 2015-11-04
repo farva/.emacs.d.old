@@ -69,44 +69,13 @@
 (when (>= emacs-major-version 24)
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
   (package-initialize)
+  (package-refresh-contents))
 
-  (defvar prelude-packages
-    '(use-package auto-complete auto-complete-c-headers company company-c-headers company-irony ggtags irony jabber magit yasnippet drag-stuff auto-yasnippet hc-zenburn-theme slime cider ycmd company-ycmd eval-sexp-fu f rainbow-delimiters smartparens cider-eval-sexp-fu)
-    "A list of packages to ensure are installed at launch.")
-
-  (defun prelude-packages-installed-p ()
-    "Check if all packages in `prelude-packages' are installed."
-    (every #'package-installed-p prelude-packages))
-
-  (defun prelude-require-package (package)
-    "Install PACKAGE unless already installed."
-    (unless (memq package prelude-packages)
-      (add-to-list 'prelude-packages package))
+(defun my:install-package-if-needed (package)
+  (when (>= emacs-major-version 24)
     (unless (package-installed-p package)
-      (package-install package)))
-
-  (defun prelude-require-packages (packages)
-    "Ensure PACKAGES are installed.
-Missing packages are installed automatically."
-    (mapc #'prelude-require-package packages))
-
-  (define-obsolete-function-alias 'prelude-ensure-module-deps 'prelude-require-packages)
-
-  (defun prelude-install-packages ()
-    "Install all packages listed in `prelude-packages'."
-    (unless (prelude-packages-installed-p)
-      ;; check for new packages (package versions)
-      (message "%s" "Emacs Prelude is now refreshing its package database...")
-      (package-refresh-contents)
-      (message "%s" " done.")
-      ;; install the missing packages
-      (prelude-require-packages prelude-packages)))
-
-  ;; run package installation
-  (prelude-install-packages)
-  )
+      (package-install package))))
 
 ;; phi-rectangle tweaks
 ;; (eval-after-load "phi-rectangle"
@@ -126,6 +95,7 @@ Missing packages are installed automatically."
 ;; auto-complete
 ;; (require 'init-auto-complete)
 
+(my:install-package-if-needed 'use-package)
 (require 'use-package)
 
 ;; yasnippets
@@ -208,7 +178,16 @@ Missing packages are installed automatically."
 ;; ggtags
 (require 'init-ggtags)
 
-(require 's)
-
 ;; eclim
 (require 'init-eclim)
+
+;; grep-a-lot
+(use-package grep-a-lot
+  :ensure t)
+(grep-a-lot-setup-keys)
+
+;; helm general
+;; (require 'init-helm)
+
+;; helm-gtags
+;; (require 'init-helm-gtags)

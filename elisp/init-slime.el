@@ -11,6 +11,9 @@
 ;; (setq slime-net-coding-system 'utf-8-unix)
 ;; (slime-setup '(slime-fancy))
 
+(my:install-package-if-needed 'slime)
+(my:install-package-if-needed 'slime-company)
+
 (eval-after-load 'slime
   '(let ((inferior-lisp-prog-path (expand-file-name "~/ccl/lx86cl64")))
      (when (file-exists-p inferior-lisp-prog-path)

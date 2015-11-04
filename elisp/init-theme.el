@@ -1,3 +1,5 @@
+(my:install-package-if-needed 'hc-zenburn-theme)
+
 (if (daemonp)
     (add-hook 'after-make-frame-functions
               (lambda (frame)

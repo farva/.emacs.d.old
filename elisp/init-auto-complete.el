@@ -1,3 +1,6 @@
+(my:install-package-if-needed 'auto-complete)
+(my:install-package-if-needed 'auto-complete-c-headers)
+
 ;; auto-complete
 (require 'auto-complete)
 ; default config
