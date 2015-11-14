@@ -1,4 +1,6 @@
-(require 'yasnippet)
+(use-package yasnippet
+  :ensure t)
+
 (yas-global-mode 1)
 
 (defun yas-no-expand-in-comment/string ()

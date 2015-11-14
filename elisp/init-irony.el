@@ -1,3 +1,5 @@
+(my:install-package-if-needed 'irony)
+
 ;; irony-mode
 (add-hook 'c++-mode-hook 'irony-mode)
 (add-hook 'c-mode-hook 'irony-mode)
