@@ -1,16 +1,10 @@
-# -*- mode: snippet -*-
-# name : if (...) { ... }
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: if (...) { ... }
 # key: if
-# uuid: oren-if
+# condition: '(string= (thing-at-point 'word t) "#if")
+# binding: direct-keybinding
+# uuid: my-if
 # --
-if (${1:condition})
-{
-`(progn
-   (setq yas-snippet-scope-blob (point))
-   (add-hook 'yas-snippet-scope-start-extend-hook
-             (lambda ()
-               (save-excursion
-                 (goto-char yas-snippet-scope-blob)
-                 (kill-line))))
-                 nil)`    $0
-`(yas-snippet-scope-init-pos)`}
+if (${1:condition}) ${2:{
+    $0
+}}

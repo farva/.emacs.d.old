@@ -14,14 +14,29 @@
   "Either expand or write <SPC>."
   (interactive)
   (let ((yas-fallback-behavior '(apply insert-char . (? )))
-        (yas--inhibit-overlay-hooks
-         (cons 'indent-according-to-mode yas--inhibit-overlay-hooks)))
+        ;; (yas--inhibit-overlay-hooks
+        ;;  (cons 'indent-according-to-mode yas--inhibit-overlay-hooks))
+        )
     (yas-expand)))
 
-(eval-after-load 'cc-mode
-  '(progn
-     (define-key c-mode-map (kbd "<SPC>") 'yas-expand-or-space)
-     (define-key c++-mode-map (kbd "<SPC>") 'yas-expand-or-space)))
+(defun yas-space-or-maybe-expand-in-field ()
+  "Either expand or write <SPC> inside field"
+  (interactive)
+  (if yas-triggers-in-field
+      (let ((yas-fallback-behavior 'return-nil)
+            (active-field (overlay-get yas--active-field-overlay 'yas--field)))
+        (when active-field
+          (unless (yas-expand-from-trigger-key active-field)
+            (insert-char ? ))))
+    (insert-char ? )))
+
+;; (eval-after-load 'cc-mode
+;;   '(progn
+;;      (define-key c-mode-map (kbd "<SPC>") 'yas-expand-or-space)
+;;      (define-key c++-mode-map (kbd "<SPC>") 'yas-expand-or-space)))
+
+(define-key yas-minor-mode-map (kbd "<SPC>") 'yas-expand-or-space)
+(define-key yas-keymap (kbd "<SPC>") 'yas-space-or-maybe-expand-in-field)
 
 (defvar-local yas-snippet-scope-initial-end-pos nil
   "Scope's end position.")
@@ -85,9 +100,11 @@
         (error "Cannot contract snippet's scope any further."))
     (error "No snippet scope to contract.")))
 
-(define-key yas-minor-mode-map (kbd "C-M-<next>") 'yas-snippet-scope-extend)
-(define-key yas-minor-mode-map (kbd "C-M-<prior>") 'yas-snippet-scope-contract)
+;; (define-key yas-minor-mode-map (kbd "C-M-<next>") 'yas-snippet-scope-extend)
+;; (define-key yas-minor-mode-map (kbd "C-M-<prior>") 'yas-snippet-scope-contract)
 
-(drag-stuff-global-mode)
+(setq yas-triggers-in-field t)
+
+;; (drag-stuff-global-mode)
 
 (provide 'init-yasnippet)

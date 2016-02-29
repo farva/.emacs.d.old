@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
-# name: operator=
+# name: my-operator=
 # key: operator=
-# where this is a reference to myself
 # group: operator overloading
 # --
 ${1:MyClass}& $1::operator=(const $1 &rhs) {

@@ -202,3 +202,10 @@
 
 ;; virtualenvwrapper
 (require 'init-virtualenvwrapper)
+
+;; org
+(require 'init-org)
+
+;; fix <backtab> on X
+;; (define-key key-translation-map [S-kp-tab] [backtab])
+;; (define-key key-translation-map (kbd "S-TAB") [backtab])

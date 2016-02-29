@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: bang
+# key: !
+# condition: 'nil
+# --
+dummy

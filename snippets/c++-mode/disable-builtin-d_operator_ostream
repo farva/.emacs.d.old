@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: d_operator<<
+# key: <<
+# group: operator overloading
+# condition: 'nil
+# --
+dummy

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: operator=
+# key: =
+# group: operator overloading
+# condition: 'nil
+# --
+dummy

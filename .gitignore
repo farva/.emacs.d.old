@@ -26,3 +26,5 @@ elpa.old
 /.#tramp
 /elisp/workbench.xmi
 /recentf
+/.#recentf
+/.org-id-locations

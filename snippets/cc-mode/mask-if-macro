@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: macro if
+# key: #if
+# condition: 'nil
+# --
+dummy
