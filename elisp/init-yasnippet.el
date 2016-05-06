@@ -3,6 +3,9 @@
 
 (yas-global-mode 1)
 
+;; disable on TERM
+(add-hook 'term-mode-hook (lambda () (setq-local yas-dont-activate t)))
+
 (defun yas-no-expand-in-comment/string ()
   (setq yas-buffer-local-condition
         '(if (nth 8 (syntax-ppss)) ;; non-nil if in a string or comment
@@ -35,8 +38,8 @@
 ;;      (define-key c-mode-map (kbd "<SPC>") 'yas-expand-or-space)
 ;;      (define-key c++-mode-map (kbd "<SPC>") 'yas-expand-or-space)))
 
-(define-key yas-minor-mode-map (kbd "<SPC>") 'yas-expand-or-space)
-(define-key yas-keymap (kbd "<SPC>") 'yas-space-or-maybe-expand-in-field)
+;; (define-key yas-minor-mode-map (kbd "<SPC>") 'yas-expand-or-space)
+;; (define-key yas-keymap (kbd "<SPC>") 'yas-space-or-maybe-expand-in-field)
 
 (defvar-local yas-snippet-scope-initial-end-pos nil
   "Scope's end position.")
@@ -64,8 +67,8 @@
   (setq yas-snippet-scope-end-contract-hook '())
   (setq yas-snippet-scope-blob nil))
 
-(add-hook 'yas-before-expand-snippet-hook 'yas-snippet-scope-clear-values)
-(add-hook 'yas-after-exit-snippet-hook 'yas-snippet-scope-clear-values)
+;; (add-hook 'yas-before-expand-snippet-hook 'yas-snippet-scope-clear-values)
+;; (add-hook 'yas-after-exit-snippet-hook 'yas-snippet-scope-clear-values)
 
 (defun yas-snippet-scope-extend ()
   "Extend the scope of the snippet downwards."

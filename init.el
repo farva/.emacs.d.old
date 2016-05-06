@@ -1,5 +1,7 @@
-(setq custom-file (concat user-emacs-directory (convert-standard-filename "custom/basic-custom.el")))
-(load custom-file)
+(setq candidate-custom-file (concat user-emacs-directory (convert-standard-filename "custom/basic-custom.el")))
+(when (file-readable-p candidate-custom-file)
+  (setq custom-file candidate-custom-file)
+  (load custom-file))
 
 (setq magit-last-seen-setup-instructions "1.4.0")
 

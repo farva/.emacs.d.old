@@ -98,4 +98,8 @@
 (add-hook 'helm-after-initialize-hook 'my:display-helm-at-bottom)
 ;; (add-hook 'helm-cleanup-hook 'my:restore-display-buffer-alist)
 
+;; fix switch-buffer-other-window with completion
+(add-to-list 'helm-completing-read-handlers-alist
+             '(switch-to-buffer-other-window . helm-completing-read-with-cands-in-buffer))
+
 (provide 'init-helm)

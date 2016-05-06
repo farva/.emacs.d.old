@@ -28,4 +28,17 @@
      (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
      (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)))
 
+(defvar-local my:helm-gtags-follow-links t)
+(defun my:helm-gtags--real-file-name ()
+  (let ((buffile (buffer-file-name)))
+    (unless buffile
+      (error "This buffer is not related to file."))
+    (if (file-remote-p buffile)
+        (tramp-file-name-localname (tramp-dissect-file-name buffile))
+      (if my:helm-gtags-follow-links
+          (file-truename buffile)
+        (expand-file-name buffile)))))
+(advice-add 'helm-gtags--real-file-name
+            :override #'my:helm-gtags--real-file-name)
+
 (provide 'init-helm-gtags)
