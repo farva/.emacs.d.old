@@ -53,4 +53,8 @@ Accepts PIDs and process objects."
 (setq password-cache t) ; enable password caching
 (setq password-cache-expiry 3600) ; for one hour (time in secs)
 
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (add-to-list 'eshell-visual-subcommands '("systemctl" "status"))))
+
 (provide 'eshell-fixes)

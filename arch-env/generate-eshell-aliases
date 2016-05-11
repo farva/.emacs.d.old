@@ -1,3 +1,4 @@
 #!/bin/bash -i
 
-alias | grep -v "alias ls=" | sed -E "s/^alias ([^=]+)='(.*)'$/alias \1 \2 \$*/g; s/'\\\''/'/g;"
+alias | grep -v "alias ls=" | egrep -v "^alias sudo=" | sed -E "s/^alias ([^=]+)='(.*)'$/alias \1 \2 \$*/g; s/'\\\''/'/g;"
+echo 'alias sudo eshell/sudo $*'
