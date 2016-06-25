@@ -84,11 +84,9 @@
         (setq my:package-contents-refreshed t))
       (package-install package))))
 
-<<<<<<< HEAD
-(require 'init-use-package)
-=======
 (async-bytecomp-package-mode 1)
->>>>>>> f68f5f297d8d4a2115938f1ed97fba6b5db775bc
+
+(require 'init-use-package)
 
 ;; phi-rectangle tweaks
 ;; (eval-after-load "phi-rectangle"
