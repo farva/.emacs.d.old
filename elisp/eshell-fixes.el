@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 ;; (defun eshell/sudo (&rest args)
 ;;   (message "eshell/sudo is in the house with %S" args)
 ;;   (throw 'eshell-replace-command
@@ -56,5 +58,32 @@ Accepts PIDs and process objects."
 (add-hook 'eshell-mode-hook
           (lambda ()
             (add-to-list 'eshell-visual-subcommands '("systemctl" "status"))))
+
+(defun read-eshell-command (prompt &optional initial-contents &rest args)
+  "Read an Eshell command from minibuffer."
+  (let ((eshell-non-interactive-p t)
+        command)
+    (minibuffer-with-setup-hook #'(lambda ()
+                                    (eshell-mode)
+                                    (eshell-return-exits-minibuffer))
+      (setq command
+            (apply 'read-from-minibuffer
+                   prompt nil nil nil nil
+                   initial-contents args))
+      (when (eshell-using-module 'eshell-hist)
+        (eshell-add-input-to-history command))
+      command)))
+
+(defun start-process-eshell-command (buffer command)
+  "Start a program in an Eshell subprocess."
+  (async-start
+   (lambda ()
+     (eshell-command command))
+   (if buffer
+       (lambda (result)
+         (with-current-buffer buffer
+           (save-excursion
+             (insert result))))
+     'ignore)))
 
 (provide 'eshell-fixes)

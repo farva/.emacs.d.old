@@ -102,4 +102,15 @@
 (add-to-list 'helm-completing-read-handlers-alist
              '(switch-to-buffer-other-window . helm-completing-read-with-cands-in-buffer))
 
+;; magit fixes
+(add-to-list 'helm-completing-read-handlers-alist
+             '(magit-checkout . helm-completing-read-with-cands-in-buffer))
+
+;; make `company' bindings as helm's
+(with-eval-after-load 'company
+  (define-key company-active-map (kbd "M-n") nil)
+  (define-key company-active-map (kbd "M-p") nil)
+  (define-key company-active-map (kbd "C-n") #'company-select-next)
+  (define-key company-active-map (kbd "C-p") #'company-select-previous))
+
 (provide 'init-helm)

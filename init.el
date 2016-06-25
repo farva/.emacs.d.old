@@ -73,13 +73,22 @@
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (add-to-list 'package-archives
              '("elpy" . "http://jorgenschaefer.github.io/packages/"))
-  (package-initialize)
-  (package-refresh-contents))
+  (package-initialize))
 
+(defvar my:package-contents-refreshed nil)
 (defun my:install-package-if-needed (package)
   (when (>= emacs-major-version 24)
     (unless (package-installed-p package)
+      (unless my:package-contents-refreshed
+        (package-refresh-contents)
+        (setq my:package-contents-refreshed t))
       (package-install package))))
+
+<<<<<<< HEAD
+(require 'init-use-package)
+=======
+(async-bytecomp-package-mode 1)
+>>>>>>> f68f5f297d8d4a2115938f1ed97fba6b5db775bc
 
 ;; phi-rectangle tweaks
 ;; (eval-after-load "phi-rectangle"
@@ -98,9 +107,6 @@
 
 ;; auto-complete
 ;; (require 'init-auto-complete)
-
-(my:install-package-if-needed 'use-package)
-(require 'use-package)
 
 ;; yasnippets
 (require 'init-yasnippet)
@@ -137,6 +143,17 @@
 ;; site specific loads
 (setq site-specific-load-file (concat user-emacs-directory (convert-standard-filename "site-lisp/init.el")))
 (when (file-exists-p site-specific-load-file)
+  ;; add subdirectories to load-path
+(mapc
+ (lambda (dir-tree) "add the directory tree to load-path"
+   (let ((default-directory
+           (concat user-emacs-directory
+                   (convert-standard-filename "site-lisp/")
+                   (convert-standard-filename (concat dir-tree "/")))))
+     (normal-top-level-add-to-load-path '("."))
+     (normal-top-level-add-subdirs-to-load-path)))
+ '("elisp"))
+
   (load-file site-specific-load-file))
 
 ;; transpose frame
@@ -144,9 +161,6 @@
 
 ;; whitespace
 (require 'init-whitespace)
-
-;; projectile-mode
-;; (projectile-global-mode)
 
 ;; which function mode
 (require 'init-which-func)
@@ -159,7 +173,7 @@
 (require 'init-mark-fixes)
 
 ;; load projectile
-;; (require 'init-projectile)
+(require 'init-projectile)
 
 ;; load auto-yasnippet
 (require 'init-auto-yasnippet)
@@ -207,3 +221,9 @@
 
 ;; org
 (require 'init-org)
+
+;; multi-term
+(require 'init-multi-term)
+
+;; extra packages
+(require 'init-extra-packages)
