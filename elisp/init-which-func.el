@@ -1,7 +1,13 @@
 ;; Show the current function name in the header line
 (which-function-mode)
-(setq-default header-line-format
-              '((which-func-mode ("" which-func-format " "))))
+
+(defun which-func-set-header-format ()
+  (when (listp header-line-format)
+    (add-to-list 'header-line-format
+                 '("" which-func-format " "))))
+(add-hook 'prog-mode-hook #'which-func-set-header-format)
+(add-hook 'diff-mode-hook #'which-func-set-header-format)
+
 (setq mode-line-misc-info
       ;; We remove Which Function Mode from the mode line,
       ;; because it's mostly invisible here anyway.
