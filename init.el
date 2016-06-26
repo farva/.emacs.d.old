@@ -142,15 +142,16 @@
 (setq site-specific-load-file (concat user-emacs-directory (convert-standard-filename "site-lisp/init.el")))
 (when (file-exists-p site-specific-load-file)
   ;; add subdirectories to load-path
-(mapc
- (lambda (dir-tree) "add the directory tree to load-path"
-   (let ((default-directory
-           (concat user-emacs-directory
-                   (convert-standard-filename "site-lisp/")
-                   (convert-standard-filename (concat dir-tree "/")))))
-     (normal-top-level-add-to-load-path '("."))
-     (normal-top-level-add-subdirs-to-load-path)))
- '("elisp"))
+  (mapc
+   (lambda (dir-tree) "add the directory tree to load-path"
+     (let ((default-directory
+             (concat user-emacs-directory
+                     (convert-standard-filename "site-lisp/")
+                     (convert-standard-filename (concat dir-tree "/")))))
+       (when (file-exists-p default-directory)
+         (normal-top-level-add-to-load-path '("."))
+         (normal-top-level-add-subdirs-to-load-path))))
+   '("elisp"))
 
   (load-file site-specific-load-file))
 
