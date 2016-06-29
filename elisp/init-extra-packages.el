@@ -5,5 +5,6 @@
 (my:use-package-ensure elisp-slime-nav)
 (my:use-package-ensure auto-yasnippet)
 (my:use-package-ensure anaphora)
+(my:use-package-ensure multiple-cursors)
 
 (provide 'init-extra-packages)

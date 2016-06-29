@@ -6,14 +6,15 @@
 (server-start)
 
 (advice-add 'exwm-config-ido :override #'ignore)
-(exwm-config-default)
+(cl-letf (((symbol-function 'exwm-enable) #'ignore))
+  (exwm-config-default))
 
 (require 'exwm-systemtray)
 (exwm-systemtray-enable)
 
 ;; Time in modeline (since I can't find something for systray)
-(setq display-time-day-and-date nil)
-(display-time-mode 1)
+;; (setq display-time-day-and-date t)
+;; (display-time-mode 1)
 
 (defun my:exwm-run-eshell-command (command)
   (interactive (list (read-eshell-command "(Eshell)$ ")))
