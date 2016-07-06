@@ -201,11 +201,6 @@
 ;; eclim
 (require 'init-eclim)
 
-;; grep-a-lot
-(use-package grep-a-lot
-  :ensure t)
-(grep-a-lot-setup-keys)
-
 ;; helm general
 (require 'init-helm)
 
@@ -232,3 +227,7 @@
 
 ;; expand region
 (require 'init-expand-region)
+
+;; multiple-cursors
+(require 'init-multiple-cursors)
+
