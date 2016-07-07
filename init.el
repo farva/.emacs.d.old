@@ -3,7 +3,7 @@
   (setq custom-file candidate-custom-file)
   (load custom-file))
 
-(setq magit-last-seen-setup-instructions "1.4.0")
+;; (setq magit-last-seen-setup-instructions "1.4.0")
 
 ;; IMPORTANT: you must place this *before* any CEDET component (including
 ;; EIEIO) gets activated by another package (Gnus, auth-source, ...).
@@ -28,6 +28,9 @@
 ;; make sure we're not running csh or some other shit...
 (if (eq system-type 'gnu/linux)
     (setq shell-file-name "/bin/bash"))
+
+;; disable the vc branch modeline that fails to be updated
+(remove-hook 'find-file-hooks 'vc-find-file-hook)
 
 ;; hack for tramp to work properly
 ;; (require 'tramp)
@@ -226,3 +229,6 @@
 
 ;; extra packages
 (require 'init-extra-packages)
+
+;; magit
+(require 'init-magit)
