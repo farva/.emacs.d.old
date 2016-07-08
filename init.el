@@ -237,3 +237,5 @@
 ;; multiple-cursors
 (require 'init-multiple-cursors)
 
+;; elisp nav
+(require 'init-elisp-slime-nav)
