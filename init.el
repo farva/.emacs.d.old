@@ -70,6 +70,9 @@
 ;; WAF supprt
 (setq auto-mode-alist (cons '("wscript" . python-mode) auto-mode-alist))
 
+;; pending delete mode
+(pending-delete-mode t)
+
 ;; MELPA
 (when (>= emacs-major-version 24)
   (require 'package)
@@ -181,7 +184,7 @@
 (require 'init-auto-yasnippet)
 
 ;; cua
-(require 'init-cua)
+;; (require 'init-cua)
 
 ;; SLIME
 (require 'init-slime)
@@ -200,11 +203,6 @@
 
 ;; eclim
 (require 'init-eclim)
-
-;; grep-a-lot
-(use-package grep-a-lot
-  :ensure t)
-(grep-a-lot-setup-keys)
 
 ;; helm general
 (require 'init-helm)
@@ -232,3 +230,10 @@
 
 ;; magit
 (require 'init-magit)
+
+;; expand region
+(require 'init-expand-region)
+
+;; multiple-cursors
+(require 'init-multiple-cursors)
+
