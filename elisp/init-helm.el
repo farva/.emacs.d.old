@@ -113,4 +113,7 @@
   (define-key company-active-map (kbd "C-n") #'company-select-next)
   (define-key company-active-map (kbd "C-p") #'company-select-previous))
 
+;; HACK
+(setq helm-follow-mode nil)
+
 (provide 'init-helm)

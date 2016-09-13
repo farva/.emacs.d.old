@@ -11,10 +11,12 @@
         ;; trigger completion at interesting places, such as after scope operator
         ;;     std::|
         (my:install-package-if-needed 'company-irony)
-        (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+        (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands))))
 
-        (my:install-package-if-needed 'company-c-headers)
-        (add-to-list 'company-backends 'company-c-headers))))
+(with-eval-after-load 'company
+  (setq company-backends (delete 'company-clang company-backends))
+  (my:install-package-if-needed 'company-c-headers)
+  (add-to-list 'company-backends 'company-c-headers))
 
 (setq company-global-modes
       '(c-mode c++-mode emacs-lisp-mode makefile-mode makefile-gmake-mode))

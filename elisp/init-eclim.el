@@ -8,11 +8,11 @@
 (require 'eclimd)
 
 ;; company mode
-(with-eval-after-load 'company
-  (require 'company-emacs-eclim)
-  (company-emacs-eclim-setup)
-  ;; (global-company-mode t)
-  )
+;; (with-eval-after-load 'company
+;;   (require 'company-emacs-eclim)
+;;   (company-emacs-eclim-setup)
+;;   ;; (global-company-mode t)
+;;   )
 
 ;; use Xvfb
 ;; (defun start-eclimd-ad (start-eclimd-func &rest r)

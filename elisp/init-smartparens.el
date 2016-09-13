@@ -6,6 +6,7 @@
 
 (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
 (add-hook 'markdown-mode-hook 'turn-on-smartparens-strict-mode)
+(add-hook 'nxml-mode-hook 'turn-off-show-smartparens-mode)
 
 ;; wrap with pairs
 (defmacro def-pairs (pairs)

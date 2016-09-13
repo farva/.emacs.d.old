@@ -61,7 +61,7 @@
 ;; (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 ;; indentation
-(setq-default c-basic-offset 2)
+;; (setq-default c-basic-offset 2)
 (setq-default indent-tabs-mode nil)
 
 ;; Emacs' temporary files
@@ -177,9 +177,6 @@
 ;; (http://www.masteringemacs.org/articles/2010/12/22/fixing-mark-commands-transient-mark-mode/)
 (require 'init-mark-fixes)
 
-;; load projectile
-(require 'init-projectile)
-
 ;; load auto-yasnippet
 (require 'init-auto-yasnippet)
 
@@ -239,3 +236,6 @@
 
 ;; elisp nav
 (require 'init-elisp-slime-nav)
+
+;; load projectile
+(require 'init-projectile)
