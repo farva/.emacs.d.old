@@ -76,15 +76,15 @@
 
 ;; my way of opening helm window
 (defvar before-helm-display-buffer-alist nil)
-
+;;
 (defun my:restore-display-buffer-alist ()
   "restore `display-buffer-alist' from `before-helm-display-buffer-alist'"
   (setq display-buffer-alist before-helm-display-buffer-alist))
-
+;;
 (defun my:helm-restore-and-display (buffer alist)
   (my:restore-display-buffer-alist)
   (display-buffer-in-side-window buffer alist))
-
+;;
 (defun my:display-helm-at-bottom ()
   ;; backup `display-buffer-alist'
   (setq before-helm-display-buffer-alist display-buffer-alist)
@@ -94,9 +94,21 @@
                  (my:helm-restore-and-display)
                  (inhibit-same-window . t)
                  (window-height . 0.4))))
-
+;;
 (add-hook 'helm-after-initialize-hook 'my:display-helm-at-bottom)
-;; (add-hook 'helm-cleanup-hook 'my:restore-display-buffer-alist)
+
+;; Other way: https://www.reddit.com/r/emacs/comments/33qj0p/make_helm_window_always_at_the_bottom_using/
+;;
+;; disable popwin-mode in an active Helm session It should be disabled
+;; otherwise it will conflict with other window opened by Helm persistent
+;; action, such as *Help* window.
+;; (with-eval-after-load 'init-popwin
+;;   (push '("^\*helm.+\*$" :regexp t) popwin:special-display-config)
+;;   (add-hook 'helm-after-initialize-hook (lambda ()
+;;                                           (popwin:display-buffer helm-buffer t)
+;;                                           (popwin-mode -1)))
+;;   ;;  Restore popwin-mode after a Helm session finishes.
+;;   (add-hook 'helm-cleanup-hook (lambda () (popwin-mode 1))))
 
 ;; fix switch-buffer-other-window with completion
 (add-to-list 'helm-completing-read-handlers-alist

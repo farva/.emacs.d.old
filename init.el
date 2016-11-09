@@ -78,8 +78,10 @@
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (add-to-list 'package-archives
-             '("elpy" . "http://jorgenschaefer.github.io/packages/"))
-  (package-initialize))
+               '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+  (package-initialize)
+  (setq package-enable-at-startup t))
 
 (defvar my:package-contents-refreshed nil)
 (defun my:install-package-if-needed (package)
@@ -239,3 +241,8 @@
 
 ;; load projectile
 (require 'init-projectile)
+
+;; popwin
+(require 'init-popwin)
+
+(message "init.el - Done")

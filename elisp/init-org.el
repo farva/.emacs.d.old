@@ -1,4 +1,4 @@
-(my:install-package-if-needed 'org)
+(my:install-package-if-needed 'org-plus-contrib)
 (my:install-package-if-needed 'graphviz-dot-mode)
 
 (setq org-babel-load-languages '((dot . t) (emacs-lisp . t)))

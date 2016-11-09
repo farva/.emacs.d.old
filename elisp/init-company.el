@@ -22,4 +22,9 @@
       '(c-mode c++-mode emacs-lisp-mode makefile-mode makefile-gmake-mode))
 (add-hook 'after-init-hook 'global-company-mode)
 
+(my:use-package-ensure company-quickhelp
+                       (company-quickhelp-mode 1))
+(eval-after-load 'company
+  '(define-key company-active-map (kbd "M-h") #'company-quickhelp-manual-begin))
+
 (provide 'init-company)
