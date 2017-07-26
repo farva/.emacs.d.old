@@ -110,14 +110,6 @@
 ;;   ;;  Restore popwin-mode after a Helm session finishes.
 ;;   (add-hook 'helm-cleanup-hook (lambda () (popwin-mode 1))))
 
-;; fix switch-buffer-other-window with completion
-(add-to-list 'helm-completing-read-handlers-alist
-             '(switch-to-buffer-other-window . helm-completing-read-with-cands-in-buffer))
-
-;; for man
-(add-to-list 'helm-completing-read-handlers-alist
-             '(man . helm-completing-read-with-cands-in-buffer))
-
 ;; make `company' bindings as helm's
 (with-eval-after-load 'company
   (define-key company-active-map (kbd "M-n") nil)

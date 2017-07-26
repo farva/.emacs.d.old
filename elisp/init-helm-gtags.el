@@ -37,8 +37,8 @@
      (define-key helm-gtags-mode-map (concat helm-gtags-prefix-key (kbd "a"))
        'helm-gtags-tags-in-this-function)
      (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
-     (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
-     (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+     ;; (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+     ;; (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
      (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
      (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
      (define-key helm-gtags-mode-map (kbd "C-c v") 'bhj-isearch-from-bod)))
@@ -55,6 +55,11 @@
         (expand-file-name buffile)))))
 (advice-add 'helm-gtags--real-file-name
             :override #'my:helm-gtags--real-file-name)
+
+(defun my:helm-gtags--persistent-action-mode-line-update (cand)
+  (force-mode-line-update t))
+;; (advice-add 'helm-gtags--persistent-action
+;;             :after #'my:helm-gtags--persistent-action-mode-line-update)
 
 (with-eval-after-load 'elpy
   (define-key elpy-mode-map (kbd "C-<") nil)

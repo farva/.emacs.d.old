@@ -140,7 +140,7 @@
 ;; (require 'init-gtags)
 
 ;; Load rtags.el
-;;(require 'init-rtags)
+(require 'init-rtags)
 
 ;; Enable recursive minibuffers
 (setq enable-recursive-minibuffers t)
@@ -244,5 +244,14 @@
 
 ;; popwin
 (require 'init-popwin)
+
+;; cfm
+;; (require 'cfm)
+
+;; hide-ifdef
+;; (require 'init-hide-ifdef)
+
+;; saving desktop
+(desktop-save-mode 1)
 
 (message "init.el - Done")
